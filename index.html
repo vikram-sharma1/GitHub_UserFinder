@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <!-- navbar -->
+    </div>
+    <div id="main">
+        <button id="repoButton">User Repo</button>
+    </div>
+    <div id="repoDetails">
+
+    </div>
+
+</body>
+</html>
+
+<script type="module">
+
+     // Navbar------------------------
+
+
+        import navbar from './navbar.js'
+
+        let container = document.querySelector('#container')
+        container.innerHTML = navbar()
+
+    // Profile Search on input --------
+
+
+
+        import getUser from './getUser.js'
+        // console.log('getUser:', getUser)
+
+        var response;
+
+    let input = document.getElementById('search-input')
+    input.addEventListener('keypress', searchUser)
+
+
+    let button = document.getElementById('repoButton')
+    button.addEventListener("click",getUserRepo)
+
+
+    async function searchUser(event){
+        
+        if(event.key == "Enter"){       // only pressing on Enter Key
+
+            let query = input.value
+            // console.log('query:', query)
+        
+            response = await getUser(query)
+            console.log('response:', response)
+            // append(response)
+
+            var butt = document.querySelector('#repoButton').addEventListener('click', function(){
+                append(response)
+            })
+
+            let {avatar_url} = response
+
+
+            document.getElementById('profile-img').src = avatar_url
+
+
+        }
+        
+        // let input = document.getElementById('search-input')
+
+    }
+
+
+   function append(data){
+
+
+
+        var image = document.createElement('img')
+        image.setAttribute("class", "image")
+        image.src = data.avatar_url
+
+
+        var name = document.createElement('h1')
+        name.textContent = `Name : ${data.name}`
+        console.log('name:', name)
+
+
+        var user = document.createElement('h3')
+        user.textContent =`User-Name: ${data.login}`
+        console.log('user:', user)
+
+
+        var followers = document.createElement('p')
+        followers.textContent =`Followers : ${data.followers}`
+        console.log('followers:', followers)
+
+
+        var following = document.createElement('p')
+        following.textContent =`Following : ${data.following}`
+        
+        console.log('following:', following)
+
+
+        var git_link = document.createElement('p')
+        git_link.textContent = `Repo's : ${data.public_repos}`
+        console.log('git_link:', git_link)
+
+
+        var link = document.createElement('h3')
+        link.textContent = `Git-Hub Link : ${data.html_url}`
+        console.log('link:', link)
+
+
+        var main_div = document.createElement('div')
+        main_div.setAttribute('class', 'main_div')
+
+
+        var box1 = document.createElement('div')
+        var box2 = document.createElement('div')
+
+        box1.append(image)
+        box2.append(name, user, followers, following, git_link, link)
+
+        main_div.append(box1,box2)
+
+        document.querySelector('#repoDetails').append(main_div)
+
+   }
+
+   
+
+
+    async function getUserRepo(){
+
+        try{
+            let res = await fetch(response.repos_url)
+
+        let repo = await res.json()
+        // console.log('repo:', repo)
+        }
+        catch(  e){
+            console.log('e:', e)
+
+        }
+        
+
+    }
+
+
+
+</script>
