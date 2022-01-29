@@ -60,6 +60,7 @@
             // append(response)
 
             var butt = document.querySelector('#repoButton').addEventListener('click', function(){
+                document.querySelector('#repoDetails').innerHTML = ""
                 append(response)
             })
 
@@ -78,7 +79,7 @@
 
    function append(data){
 
-    document.querySelector('#repoDetails').innerHTML = ""
+    
 
         var image = document.createElement('img')
         image.setAttribute("class", "image")
@@ -87,33 +88,30 @@
 
         var name = document.createElement('h1')
         name.textContent = `Name : ${data.name}`
-        console.log('name:', name)
 
 
         var user = document.createElement('h3')
         user.textContent =`User-Name: ${data.login}`
-        console.log('user:', user)
 
 
         var followers = document.createElement('p')
         followers.textContent =`Followers : ${data.followers}`
-        console.log('followers:', followers)
 
 
         var following = document.createElement('p')
         following.textContent =`Following : ${data.following}`
         
-        console.log('following:', following)
 
 
         var git_link = document.createElement('p')
         git_link.textContent = `Repo's : ${data.public_repos}`
-        console.log('git_link:', git_link)
 
 
-        var link = document.createElement('h3')
-        link.textContent = `Git-Hub Link : ${data.html_url}`
-        console.log('link:', link)
+        var link = document.createElement('h4')
+        var link1 = document.createElement('a')
+        link1.href = data.html_url
+
+        link.textContent = `Git-Hub Link : ${link1}`
 
 
         var main_div = document.createElement('div')
